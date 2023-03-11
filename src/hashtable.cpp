@@ -1,5 +1,10 @@
 #include "hashtable.h"
-// TODO table pointer in vector
+
+HashItem::HashItem()
+{
+    throw std::invalid_argument("[ WARNING ] HashItem must be instantiated with arguments!");
+};
+
 Hashtable::Hashtable(int size) : table(size), size(size){};
 
 Hashtable::~Hashtable()
@@ -29,9 +34,9 @@ int Hashtable::hashString(const std::string &key) const
     return hashValue;
 };
 
-void Hashtable::add(const std::string &key)
+void Hashtable::add(const std::string &key, const std::string &name, const std::string &wkn)
 {
-    hash_item *newItem = new hash_item;
+    HashItem *newItem = new HashItem(key, name, wkn);
     newItem->key = std::string(key);
 
     int hashIndex = this->hashString(key);
@@ -39,24 +44,17 @@ void Hashtable::add(const std::string &key)
     // check for collision
 };
 
-void Hashtable::add
+// void Hashtable::add
 
-    course_data *
-    Hashtable::createCourseDataEl(std::string &date, double high, double low, double close, double adj, double volume, double adj_close)
+StockData *
+Hashtable::createStockData(std::string &date, double high, double low, double close, double adj, double volume, double adj_close)
 {
-    course_data *courseData = new course_data;
-    courseData->date = std::string(date);
-    courseData->high = high;
-    courseData->low = low;
-    courseData->close = close;
-    courseData->adj = adj;
-    courseData->volume = volume;
-    courseData->adj_close = adj_close;
+    StockData *newData = new StockData(date, high, low, close, adj, volume, adj_close);
 
-    return courseData;
+    return newData;
 };
 
-void Hashtable::addCourseData(std::string &key, course_data &data)
+void Hashtable::addCourseData(std::string &key, StockData &data)
 {
     int index = this->hashString(key);
     index = this->probe(key, index);
@@ -69,10 +67,10 @@ bool Hashtable::isEmpty(int index)
     return this->table[index] == NULL;
 }
 
-int Hashtable::probe(std::string &key, int index)
+int Hashtable::probe(const std::string &key, int index)
 {
     this->probeIndex = 1;
-    while (!this->isEmpty(index) || !this->foundKey(key, index))
+    while (!this->isEmpty(index) && !this->foundKey(key, index))
         index += (probeIndex * probeIndex++);
     return index;
 };
@@ -83,21 +81,21 @@ void Hashtable::resetProbeIndex()
     this->probeIndex = 1;
 }
 
-bool Hashtable::foundKey(std::string &key, int index)
+bool Hashtable::foundKey(const std::string &key, int index)
 {
     if (this->table[index] == NULL)
         return false;
 
-    return key.compare(this->table[index]->key);
+    return this->table[index]->key == key;
 };
 
 //? was wenn index größer als table?
-hash_item *Hashtable::get(std::string &key)
+HashItem *Hashtable::find(const std::string &key)
 {
     int index = this->hashString(key);
 
     if (this->isEmpty(index))
-        return NULL;
+        throw KeyNotFound(key);
 
     index = this->probe(key, index);
 

@@ -10,6 +10,19 @@
 
 int main()
 {
+    CSVParser p;
+    p.parseFile("stocks.csv");
+    Hashtable h(1000);
+    h.add("markus", "roesner", "m");
+    try
+    {
+        HashItem *m = h.find("markus");
+        std::cout << m->name;
+    }
+    catch (const KeyNotFound &ex)
+    {
+        std::cout << ex.what() << std::endl;
+    }
 
     return 0;
 };
