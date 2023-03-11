@@ -7,9 +7,10 @@ CSVParser::~CSVParser(){};
 
 void CSVParser::parseFile(std::string filePath)
 {
-    this->reset();
+    this->clearParsedData();
 
     std::string line, cell;
+    std::vector<std::string> content;
 
     std::ifstream file;
     file.open(filePath);
@@ -17,12 +18,18 @@ void CSVParser::parseFile(std::string filePath)
     if (!file.is_open())
         std::cerr << "\nDatei konnte nicht geöffnet werden!" << std::endl;
 
+    // skip first line containing column names
+    std::getline(file, line);
+
     while (file >> line)
     {
+        content.clear();
+        int lineCounter = 0;
         std::stringstream tempLine(line);
-
+        // in nächsten vektor gehen?
         while (std::getline(tempLine, cell, ','))
-            this->parsedData.push_back(cell);
+            content.push_back(cell);
+        this->parsedData.push_back(content);
     }
 
     if (!file.eof())
@@ -31,21 +38,7 @@ void CSVParser::parseFile(std::string filePath)
     file.close();
 };
 
-std::vector<std::string> CSVParser::parseString(std::string s)
-{
-    std::vector<std::string> parsedString;
-
-    std::string cell;
-
-    std::stringstream tempLine(s);
-
-    while (std::getline(tempLine, cell, ','))
-        parsedString.push_back(cell);
-
-    return parsedString;
-};
-
-std::vector<std::string> CSVParser::getParsedData()
+std::vector<std::vector<std::string>> CSVParser::getParsedData()
 {
     return this->parsedData;
 };
@@ -55,32 +48,13 @@ void CSVParser::print()
     int vecSize = parsedData.size();
 
     for (int index = 0; index < vecSize; index++)
-        std::cout << parsedData[index] << "\n";
+        for (int line = 0; line < parsedData[index].size(); line++)
+        {
+            std::cout << parsedData[index][line] << "\n";
+        }
 };
 
-void CSVParser::reset()
+void Parser::clearParsedData()
 {
-    fileContent = "";
+    this->parsedData.clear();
 };
-
-// bool CSVParser::read(std::string &path)
-// {
-//     this->reset();
-//     std::string line;
-
-//     std::ifstream file;
-//     file.open(path);
-
-//     if (!file.is_open())
-//     {
-//         std::cerr << "\nDatei konnte nicht geöffnet werden!" << std::endl;
-//         return false;
-//     }
-
-//     while (std::getline(file, line))
-//         fileContent += line;
-
-//     file.close();
-
-//     return true;
-// }
