@@ -6,6 +6,26 @@ HashItem::HashItem()
     throw std::invalid_argument("[ WARNING ] HashItem must be instantiated with arguments!");
 };
 
+std::ostream &operator<<(std::ostream &stream, const StockData &data)
+{
+    stream << "\nDate: " << data.date;
+    stream << "\nHigh: " << data.high;
+    stream << "\nLow: " << data.low;
+    stream << "\nClose: " << data.close;
+    stream << "\nAdj: " << data.adj;
+    stream << "\nVolume: " << data.volume;
+    stream << "\nAdj. Close: " << data.adj_close << std::endl;
+    return stream;
+};
+
+std::ostream &operator<<(std::ostream &stream, const HashItem &item)
+{
+    stream << "\nAbbreviation:  " << item.abbr;
+    stream << "\nName: " << item.name;
+    stream << "\nWKN: " << item.wkn << std::endl;
+    return stream;
+};
+
 Hashtable::Hashtable(int nbrOfEntries)
 {
     this->size = getPrimeBiggerThan(nbrOfEntries * 1.3);

@@ -1,0 +1,7 @@
+x : exit program
+
+a : add new stock
+
+i : import course data
+
+s : print course data for given stock ticker

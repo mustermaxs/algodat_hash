@@ -26,3 +26,17 @@ int getPrimeBiggerThan(int maxNr)
 
     return biggestPrimeInRange;
 };
+
+void printFileContent(const std::string &filePath)
+{
+    std::fstream file(filePath);
+    // std::string content;
+    // file.open(filePath);
+    system("clear");
+
+    if (file.is_open())
+        std::cout << file.rdbuf() << std::endl;
+
+    // std::cout << content;
+    file.close();
+};
