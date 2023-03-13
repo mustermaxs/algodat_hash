@@ -29,7 +29,7 @@ public:
     ~CSVParser() override;
     void parseFile(std::string path) override;
     void print() override;
-    std::vector<std::vector<std::string>> getParsedData();
+    std::vector<std::vector<std::string>> getParsedData() override;
 };
 
 #endif

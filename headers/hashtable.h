@@ -6,6 +6,9 @@
 #include <vector>
 #include <stdexcept>
 #include <exception>
+#include "csvparser.h"
+
+// class Parser;
 
 class StockData
 {
@@ -37,13 +40,13 @@ public:
 class HashItem
 {
 public:
-    std::string key;
+    std::string abbr;
     std::string name;
     std::string wkn;
     std::vector<StockData *> data;
 
     HashItem();
-    HashItem(std::string key, std::string name, std::string wkn) : key(key), name(name), wkn(wkn){};
+    HashItem(std::string abbr, std::string name, std::string wkn) : abbr(abbr), name(name), wkn(wkn){};
 };
 
 class Hashtable
@@ -53,26 +56,30 @@ private:
     int size;
     int probeIndex = 1;
     int elementCount = 0;
-    int hashString(const std::string &key) const;
+    int hashString(const std::string &abbr) const;
     void resetProbeIndex();
-    int probe(const std::string &key, int index);
-    // struct hash_item *createHashItem(std::string *key, std::string *value);
+    int probe(const std::string &abbr, int index);
+    // struct hash_item *createHashItem(std::string *abbr, std::string *value);
 
 public:
-    Hashtable(int tableSize);
+    Parser *parser;
+    void useParser(Parser *parser);
+    // int calcOptimalTableSize(int nrOfEntries);
+    Hashtable(int nbrOfEntries);
     ~Hashtable();
-    void add(const std::string &key, const std::string &name, const std::string &wkn);
-    HashItem *get(std::string &key);
-    void remove(const char &key);
+    void add(const std::string &abbr, const std::string &name, const std::string &wkn);
+    HashItem *get(std::string &abbr);
+    void remove(const char &abbr);
     void saveToFile(const std::string &path);
     void loadFromFile(std::string &path);
-    void addCourseData(std::string &key, StockData &data);
+    void addCourseData(std::string &abbr, StockData &data);
     StockData *createStockData(std::string &date, double high, double low, double close, double adj, double volume, double adj_close);
     // TODO
-    HashItem *getIndexFromKey(std::string &key);
-    HashItem *find(const std::string &key);
-    bool foundKey(const std::string &key, int index);
+    HashItem *getIndexFromKey(std::string &abbr);
+    HashItem *find(const std::string &abbr);
+    bool foundKey(const std::string &abbr, int index);
     bool isEmpty(int index);
+    void import(const std::string &path);
     bool quit();
 };
 
@@ -81,7 +88,7 @@ class KeyNotFound : public std::exception
     std::string _msg;
 
 public:
-    KeyNotFound(const std::string &key) : _msg("[ WARNING ] KEY '" + key + "' NOT FOUND"){};
+    KeyNotFound(const std::string &abbr) : _msg("[ WARNING ] KEY '" + abbr + "' NOT FOUND"){};
 
     virtual const char *what() const noexcept override
     {

@@ -7,22 +7,14 @@
 
 #include "csvparser.h"
 #include "hashtable.h"
+// #include "utils.h"
 
 int main()
 {
-    CSVParser p;
-    p.parseFile("stocks.csv");
+    CSVParser *p = new CSVParser();
+    // p.parseFile("stocks.csv");
     Hashtable h(1000);
-    h.add("markus", "roesner", "m");
-    try
-    {
-        HashItem *m = h.find("markus");
-        std::cout << m->name;
-    }
-    catch (const KeyNotFound &ex)
-    {
-        std::cout << ex.what() << std::endl;
-    }
-
+    h.useParser(p);
+    h.import("stocks.csv");
     return 0;
 };
