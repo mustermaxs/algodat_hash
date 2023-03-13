@@ -16,9 +16,8 @@ protected:
 
 public:
     virtual ~Parser() = 0;
-    virtual void parseFile(std::string path) = 0;
+    virtual std::vector<std::vector<std::string>> parseFile(std::string path) = 0;
     virtual void print() = 0;
-    virtual std::vector<std::vector<std::string>> getParsedData() = 0;
 };
 
 class CSVParser : public Parser
@@ -27,9 +26,8 @@ private:
 public:
     CSVParser();
     ~CSVParser() override;
-    void parseFile(std::string path) override;
+    std::vector<std::vector<std::string>> parseFile(std::string path) override;
     void print() override;
-    std::vector<std::vector<std::string>> getParsedData() override;
 };
 
 #endif
