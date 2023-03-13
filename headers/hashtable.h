@@ -24,18 +24,9 @@ public:
     StockData();
     StockData(std::string &date, double high, double low, double close, double adj, double volume, double adj_close)
         : date(date), high(high), low(low), close(close), adj(adj), volume(volume), adj_close(adj_close){};
-};
 
-// struct course_data
-// {
-//     std::string date;
-//     double high;
-//     double low;
-//     double close;
-//     double adj;
-//     double volume;
-//     double adj_close;
-// } typedef course_data;
+    friend std::ostream &operator<<(std::ostream &stream, const StockData &data);
+};
 
 class HashItem
 {
@@ -47,6 +38,8 @@ public:
 
     HashItem();
     HashItem(std::string abbr, std::string name, std::string wkn) : abbr(abbr), name(name), wkn(wkn){};
+
+    friend std::ostream &operator<<(std::ostream &stream, const HashItem &item);
 };
 
 class Hashtable
@@ -54,15 +47,16 @@ class Hashtable
 private:
     std::vector<HashItem *> table;
     int size;
-    int probeIndex = 1;
     int elementCount = 0;
+    Parser *parser;
+    int probeIndex = 1;
     int hashString(const std::string &abbr) const;
     void resetProbeIndex();
     int probe(const std::string &abbr, int index);
+
     // struct hash_item *createHashItem(std::string *abbr, std::string *value);
 
 public:
-    Parser *parser;
     void useParser(Parser *parser);
     // int calcOptimalTableSize(int nrOfEntries);
     Hashtable(int nbrOfEntries);
