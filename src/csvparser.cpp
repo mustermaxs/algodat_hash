@@ -5,7 +5,7 @@ Parser::~Parser(){};
 CSVParser::CSVParser(){};
 CSVParser::~CSVParser(){};
 
-void CSVParser::parseFile(std::string filePath)
+std::vector<std::vector<std::string>> CSVParser::parseFile(std::string filePath)
 {
     this->clearParsedData();
 
@@ -36,10 +36,6 @@ void CSVParser::parseFile(std::string filePath)
         std::cerr << "Fehler beim Lesen!";
 
     file.close();
-};
-
-std::vector<std::vector<std::string>> CSVParser::getParsedData()
-{
     return this->parsedData;
 };
 
