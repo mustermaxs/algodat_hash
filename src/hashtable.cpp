@@ -6,24 +6,40 @@ HashItem::HashItem()
     throw std::invalid_argument("[ WARNING ] HashItem must be instantiated with arguments!");
 };
 
+// std::ostream &operator<<(std::ostream &stream, const StockData &data)
+// {
+//     stream << "\nDate: " << data.date;
+//     stream << "\nOpen: " << data.open;
+//     stream << "\nHigh: " << data.high;
+//     stream << "\nLow: " << data.low;
+//     stream << "\nClose: " << data.close;
+//     stream << "\nVolume: " << data.volume;
+//     stream << "\nAdj. Close: " << data.adj_close << std::endl;
+//     return stream;
+// };
+
 std::ostream &operator<<(std::ostream &stream, const StockData &data)
 {
-    stream << "\nDate: " << data.date;
-    stream << "\nHigh: " << data.high;
-    stream << "\nLow: " << data.low;
-    stream << "\nClose: " << data.close;
-    stream << "\nAdj: " << data.adj;
-    stream << "\nVolume: " << data.volume;
-    stream << "\nAdj. Close: " << data.adj_close << std::endl;
+    stream << data.date << ",";
+    stream << data.open << ",";
+    stream << data.high << ",";
+    stream << data.low << ",";
+    stream << data.close << ",";
+    stream << data.volume << ",";
+    stream << data.adj_close << ",";
     return stream;
 };
 
 std::ostream &operator<<(std::ostream &stream, const HashItem &item)
 {
-    stream << "\nAbbreviation:  " << item.abbr;
-    stream << "\nName: " << item.name;
-    stream << "\nWKN: " << item.wkn << std::endl;
+    stream << item.abbr << ",";
+    stream << item.name << ",";
+    stream << item.wkn << ",";
     return stream;
+};
+
+std::fstream &operator<<(std::fstream &stream, const HashItem &item){
+
 };
 
 Hashtable::Hashtable(int nbrOfEntries)
@@ -33,7 +49,7 @@ Hashtable::Hashtable(int nbrOfEntries)
     // std::cout << this->table.size();
 };
 
-void Hashtable::import(std::string &abbr, const std::string &path)
+void Hashtable::import(const std::string &abbr, const std::string &path)
 {
     std::vector<std::vector<std::string>> parseData = this->parser->parseFile(path);
 
@@ -41,10 +57,9 @@ void Hashtable::import(std::string &abbr, const std::string &path)
     {
         if (row.size() != 7)
         {
-            std::cerr << "Invalid data in CSV file!"  << std::endl;
+            std::cerr << "Invalid data in CSV file!" << std::endl;
             continue;
         }
-
         std::string date = row[0];
         double open = std::stod(row[1]);
         double high = std::stod(row[2]);
@@ -53,14 +68,11 @@ void Hashtable::import(std::string &abbr, const std::string &path)
         double adj_close = std::stod(row[5]);
         double volume = std::stod(row[6]);
 
+        StockData *data = new StockData(date, open, high, low, close, adj_close, volume);
 
-        StockData data(date, open, high, low, close, adj_close, volume);
-
-        this->addCourseData(abbr, data);
+        this->addCourseData(abbr, *data);
     }
 }
-
-
 
 void Hashtable::useParser(Parser *parser)
 {
@@ -113,9 +125,8 @@ StockData::StockData()
     throw std::invalid_argument("[ WARNING ] StockData must be instantiated with arguments!");
 };
 
-StockData::StockData(const std::string &date, double open, double high, double low, double close, double adj_close, double volume )
-        : date(date), open(open), high(high), low(low), close(close), adj_close(adj_close), volume(volume){};
-
+StockData::StockData(std::string date, double open, double high, double low, double close, double adj_close, double volume)
+    : date(date), open(open), high(high), low(low), close(close), adj_close(adj_close), volume(volume){};
 
 StockData *Hashtable(std::string &date, double high, double low, double close, double adj, double volume, double adj_close)
 {
@@ -124,7 +135,21 @@ StockData *Hashtable(std::string &date, double high, double low, double close, d
     return newData;
 };
 
-void Hashtable::addCourseData(std::string &abbr, StockData &data)
+void Hashtable::save()
+{
+    std::ostream hashtableFile("saved_hashtable.txt", );
+
+    for (int itemIndex = 0; itemIndex < this->size; itemIndex++)
+    {
+
+        hashtableFile << stock;
+        for (const auto &data : stock)
+        {
+        }
+    }
+}
+
+void Hashtable::addCourseData(const std::string &abbr, StockData &data)
 {
     int index = this->hashString(abbr);
     index = this->probe(abbr, index);

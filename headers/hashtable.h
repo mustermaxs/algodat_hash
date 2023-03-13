@@ -7,6 +7,7 @@
 #include <stdexcept>
 #include <exception>
 #include "csvparser.h"
+#include <fstream>
 
 // class Parser;
 
@@ -22,8 +23,9 @@ public:
     double adj_close;
 
     StockData();
-    StockData(const std::string &date, double open, double high, double low, double close, double adj_close, double volume);
+    StockData(std::string date, double open, double high, double low, double close, double adj_close, double volume);
 
+    friend std::fstream &operator<<(std::fstream &stream, const StockData &data);
     friend std::ostream &operator<<(std::ostream &stream, const StockData &data);
 };
 
@@ -38,8 +40,22 @@ public:
     HashItem();
     HashItem(std::string abbr, std::string name, std::string wkn) : abbr(abbr), name(name), wkn(wkn){};
 
+    friend std::fstream &operator<<(std::fstream &stream, const HashItem &item);
     friend std::ostream &operator<<(std::ostream &stream, const HashItem &item);
 };
+
+/**
+ * "METADATEN" FÜR HASHTABLE::LOAD
+ *      #, 1,  APL, Apple Inc., 123,
+ * NEUE AKTIE BEGINNT
+ * HASHTABLE HÄLT AUSSCHAU NACH "#" => die nächsten view Zellen
+ * im Vektor sind:
+ *      + Index im table
+ *      + Abbr
+ *      + Name
+ *      + WKN
+ *
+ */
 
 class Hashtable
 {
@@ -65,14 +81,14 @@ public:
     void remove(const char &abbr);
     void saveToFile(const std::string &path);
     void loadFromFile(std::string &path);
-    void addCourseData(std::string &abbr, StockData &data);
+    void addCourseData(const std::string &abbr, StockData &data);
     StockData *createStockData(std::string &date, double high, double low, double close, double adj, double volume, double adj_close);
     // TODO
     HashItem *getIndexFromKey(std::string &abbr);
     HashItem *find(const std::string &abbr);
     bool foundKey(const std::string &abbr, int index);
     bool isEmpty(int index);
-    void import(std::string &abbr, const std::string &path);
+    void import(const std::string &abbr, const std::string &path);
     bool quit();
 };
 

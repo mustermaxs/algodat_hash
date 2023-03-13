@@ -13,50 +13,30 @@
 
 int main()
 {
-    Plotter plotter(40, 160, 1, 2);
-    plotter.setMinInputY(-1000);
-    plotter.setMaxInputY(1000);
-    // char userInput = ' ';
-    // CSVParser *csvParser = new CSVParser();
-    // Hashtable table(1000);
-    // table.useParser(csvParser);
+    Plotter plotter(30, 40, 1, 1);
+    plotter.setMaxInputY(320);
+    plotter.setMinInputY(214);
+    Hashtable table(1000);
+    CSVParser *parser = new CSVParser();
+    table.useParser(parser);
+    table.add("apl", "Apple", "123");
+    table.import("apl", "stocks.csv");
+    HashItem *item = table.find("apl");
+    // std::cout << item->data[0]->date;
 
-    // std::string stockAbbr;
-    // std::string stockName;
-    // std::string wkn;
-    // HashItem *max = new HashItem("m", "max", "123");
-    // HashItem markus("markus", "roesner", "234");
-    // std::cout << markus;
-    // std::cout << *max;
-    // plotter.clear();
-    // plotter.printAt(2, 2, "°");
-    // plotter.printAt(1, 1, "°");
-    // plotter.printAt(3, 3, "°");
-    // plotter.printAt(2, 4, "°");
     plotter.printGrid();
-    const double pi = 3.14159;
-    int angle = 0;
-
-    for (int i = 0; i < 160; i++)
+    int vecSize = item->data.size();
+    int counter = 0;
+    for (int i = vecSize - 30; i < vecSize; i++)
     {
-        int a = (1000 * std::sin(angle * 3.141 / 180));
-        // int y = plotter.map(a, 0, 838, -40, 40);
-        plotter.printPoint(i, a);
-        // std::cout << a << "\n";
-        angle += 3;
+        plotter.printPoint(counter, item->data[i]->close);
+        counter++;
     }
 
-    // std::cout << plotter.map(0, 0, 100, 0, 10) << std::endl;
-    // std::cout << plotter.map(25, 0, 100, 0, 10) << std::endl;
-    // std::cout << plotter.map(50, 0, 100, 0, 10) << std::endl;
-    // std::cout << plotter.map(75, 0, 100, 0, 10) << std::endl;
-    // std::cout << plotter.map(100, 0, 100, 0, 10) << std::endl;
-    std::getchar();
-    // plotter.printPoint(0, );
-    // std::cout << "±";
-
-    return 0;
-
+    /**
+     * MENU TEST
+     *
+     */
     // while (userInput != 'x')
     // {
     //     printFileContent("./manual.txt");
@@ -88,3 +68,12 @@ int main()
 
     return 0;
 };
+
+// for (int i = 0; i < 160; i++)
+// {
+//     int a = (1000 * std::sin(angle * 3.141 / 180));
+//     // int y = plotter.map(a, 0, 838, -40, 40);
+//     plotter.printPoint(i, a);
+//     // std::cout << a << "\n";
+//     angle += 3;
+// }

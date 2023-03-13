@@ -22,9 +22,9 @@ int Plotter::map(double input, double min_0, double max_0, double min_1, double 
 
 void Plotter::printPoint(int _x, int _y)
 {
-    int x = _x + offsetX;
+    int x = (_x * 2) + offsetX;
     int y = (height + offsetY) - this->map(_y, minInputY, maxInputY, 0, height);
-    this->printAt(x, y, '+');
+    this->printAt(x, y, "•");
 };
 
 void Plotter::setMaxInputY(double yMax)
