@@ -14,16 +14,15 @@ class StockData
 {
 public:
     std::string date;
+    double open;
     double high;
     double low;
     double close;
-    double adj;
     double volume;
     double adj_close;
 
     StockData();
-    StockData(std::string &date, double high, double low, double close, double adj, double volume, double adj_close)
-        : date(date), high(high), low(low), close(close), adj(adj), volume(volume), adj_close(adj_close){};
+    StockData(const std::string &date, double open, double high, double low, double close, double adj_close, double volume);
 };
 
 // struct course_data
@@ -79,7 +78,7 @@ public:
     HashItem *find(const std::string &abbr);
     bool foundKey(const std::string &abbr, int index);
     bool isEmpty(int index);
-    void import(const std::string &path);
+    void import(std::string &abbr, const std::string &path);
     bool quit();
 };
 

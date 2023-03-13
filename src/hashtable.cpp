@@ -13,10 +13,34 @@ Hashtable::Hashtable(int nbrOfEntries)
     // std::cout << this->table.size();
 };
 
-void Hashtable::import(const std::string &path)
+void Hashtable::import(std::string &abbr, const std::string &path)
 {
-    this->parser->parseFile(path);
-};
+    std::vector<std::vector<std::string>> parseData = this->parser->parseFile(path);
+
+    for (const auto &row : parseData)
+    {
+        if (row.size() != 7)
+        {
+            std::cerr << "Invalid data in CSV file!"  << std::endl;
+            continue;
+        }
+
+        std::string date = row[0];
+        double open = std::stod(row[1]);
+        double high = std::stod(row[2]);
+        double low = std::stod(row[3]);
+        double close = std::stod(row[4]);
+        double adj_close = std::stod(row[5]);
+        double volume = std::stod(row[6]);
+
+
+        StockData data(date, open, high, low, close, adj_close, volume);
+
+        this->addCourseData(abbr, data);
+    }
+}
+
+
 
 void Hashtable::useParser(Parser *parser)
 {
@@ -64,9 +88,16 @@ void Hashtable::add(const std::string &abbr, const std::string &name, const std:
 };
 
 // void Hashtable::add
+StockData::StockData()
+{
+    throw std::invalid_argument("[ WARNING ] StockData must be instantiated with arguments!");
+};
 
-StockData *
-Hashtable::createStockData(std::string &date, double high, double low, double close, double adj, double volume, double adj_close)
+StockData::StockData(const std::string &date, double open, double high, double low, double close, double adj_close, double volume )
+        : date(date), open(open), high(high), low(low), close(close), adj_close(adj_close), volume(volume){};
+
+
+StockData *Hashtable(std::string &date, double high, double low, double close, double adj, double volume, double adj_close)
 {
     StockData *newData = new StockData(date, high, low, close, adj, volume, adj_close);
 
