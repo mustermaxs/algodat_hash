@@ -25,8 +25,8 @@ std::ostream &operator<<(std::ostream &stream, const StockData &data)
     stream << data.high << ",";
     stream << data.low << ",";
     stream << data.close << ",";
-    stream << data.volume << ",";
     stream << data.adj_close << ",";
+    stream << data.volume << ",";
     return stream;
 };
 
@@ -38,9 +38,13 @@ std::ostream &operator<<(std::ostream &stream, const HashItem &item)
     return stream;
 };
 
-std::fstream &operator<<(std::fstream &stream, const HashItem &item){
-
-};
+// std::fstream &operator<<(std::fstream &stream, const HashItem &item)
+// {
+//     stream << item.abbr << ",";
+//     stream << item.name << ",";
+//     stream << item.wkn << ",";
+//     return stream;
+// };
 
 Hashtable::Hashtable(int nbrOfEntries)
 {
@@ -72,7 +76,7 @@ void Hashtable::import(const std::string &abbr, const std::string &path)
 
         this->addCourseData(abbr, *data);
     }
-}
+};
 
 void Hashtable::useParser(Parser *parser)
 {
@@ -109,6 +113,12 @@ int Hashtable::hashString(const std::string &abbr) const
     return hashValue;
 };
 
+// void Hashtable::remove(const std::string &abbr)
+// {
+//     int index = this->hashString(abbr);
+//     // TODO
+// };
+
 void Hashtable::add(const std::string &abbr, const std::string &name, const std::string &wkn)
 {
     HashItem *newItem = new HashItem(abbr, name, wkn);
@@ -137,17 +147,20 @@ StockData *Hashtable(std::string &date, double high, double low, double close, d
 
 void Hashtable::save()
 {
-    std::ostream hashtableFile("saved_hashtable.txt", );
+    std::ofstream file("saved_hashtable.txt");
 
     for (int itemIndex = 0; itemIndex < this->size; itemIndex++)
     {
+        if (this->table[itemIndex] == NULL)
+            continue;
+        file << "#," << itemIndex << "," << *(this->table[itemIndex]) << std::endl;
 
-        hashtableFile << stock;
-        for (const auto &data : stock)
+        for (const auto &data : this->table[itemIndex]->data)
         {
+            file << *data << std::endl;
         }
     }
-}
+};
 
 void Hashtable::addCourseData(const std::string &abbr, StockData &data)
 {
