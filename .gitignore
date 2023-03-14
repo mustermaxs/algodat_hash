@@ -4,6 +4,8 @@ algodat_hash.code-workspace
 /cmake-build-debug/
 CMakeLists.txt
 main
+main.exe
+a.out
 workspace
 .gitignore
 .idea/
