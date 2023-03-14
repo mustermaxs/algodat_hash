@@ -78,7 +78,7 @@ public:
     ~Hashtable();
     void add(const std::string &abbr, const std::string &name, const std::string &wkn);
     HashItem *get(std::string &abbr);
-    void remove(const char &abbr);
+    void remove(const std::string &abbr);
     void saveToFile(const std::string &path);
     void loadFromFile(std::string &path);
     void addCourseData(const std::string &abbr, StockData &data);
