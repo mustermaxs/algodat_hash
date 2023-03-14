@@ -80,6 +80,7 @@ public:
     HashItem *get(std::string &abbr);
     void remove(const std::string &abbr);
     void saveToFile(const std::string &path);
+    void save();
     void loadFromFile(std::string &path);
     void addCourseData(const std::string &abbr, StockData &data);
     StockData *createStockData(std::string &date, double high, double low, double close, double adj, double volume, double adj_close);

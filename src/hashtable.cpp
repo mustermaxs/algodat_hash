@@ -143,17 +143,20 @@ StockData *Hashtable(std::string &date, double high, double low, double close, d
 
 void Hashtable::save()
 {
-    std::ostream hashtableFile("saved_hashtable.txt", );
+    std::ofstream file("saved_hashtable.txt");
 
     for (int itemIndex = 0; itemIndex < this->size; itemIndex++)
     {
+        if (this->table[itemIndex] == NULL)
+            continue;
+        file << "#," << itemIndex << "," << *(this->table[itemIndex]) << std::endl;
 
-        hashtableFile << stock;
-        for (const auto &data : stock)
+        for (const auto &data : this->table[itemIndex]->data)
         {
+            file << *data << std::endl;
         }
     }
-}
+};
 
 void Hashtable::addCourseData(const std::string &abbr, StockData &data)
 {
