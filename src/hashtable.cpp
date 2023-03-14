@@ -109,6 +109,12 @@ int Hashtable::hashString(const std::string &abbr) const
     return hashValue;
 };
 
+void Hashtable::remove(const std::string &abbr)
+{
+    int index = this->hashString(abbr);
+    // TODO
+};
+
 void Hashtable::add(const std::string &abbr, const std::string &name, const std::string &wkn)
 {
     HashItem *newItem = new HashItem(abbr, name, wkn);

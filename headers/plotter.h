@@ -6,7 +6,7 @@
 
 class Plotter
 {
-private:
+protected:
     int offsetX;
     int offsetY;
     int height;

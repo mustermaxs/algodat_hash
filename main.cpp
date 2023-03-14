@@ -9,11 +9,11 @@
 #include "csvparser.h"
 #include "hashtable.h"
 #include "utils.h"
-#include "plotter.h"
+#include "stockplotter.h"
 
 int main()
 {
-    Plotter plotter(30, 40, 1, 1);
+    StockPlotter plotter(30, 40, 1, 1);
     plotter.setMaxInputY(320);
     plotter.setMinInputY(214);
     Hashtable table(1000);
@@ -24,19 +24,24 @@ int main()
     HashItem *item = table.find("apl");
     // std::cout << item->data[0]->date;
 
-    plotter.printGrid();
-    int vecSize = item->data.size();
-    int counter = 0;
-    for (int i = vecSize - 30; i < vecSize; i++)
-    {
-        plotter.printPoint(counter, item->data[i]->close);
-        counter++;
-    }
+    // plotter.printGrid();
+    // int vecSize = item->data.size();
+    // int counter = 0;
+    // for (int i = vecSize - 30; i < vecSize; i++)
+    // {
+    //     plotter.printPoint(counter, item->data[i]->close);
+    //     counter++;
+    // }
 
     /**
      * MENU TEST
      *
      */
+
+    // char userInput = ' ';
+    // std::string stockAbbr;
+    // std::string stockName;
+    // std::string wkn;
     // while (userInput != 'x')
     // {
     //     printFileContent("./manual.txt");
@@ -60,9 +65,11 @@ int main()
     //         std::cin >> stockAbbr;
     //         item = table.find(stockAbbr);
     //         std::cout << *item;
-    //         std::cout << "\nPrint course data? (y/n): ";
-    //     default:
-    //         break;
+    //         std::cout << "\nPlot course data? (y/n): ";
+    //         std::cin >> userInput;
+    //         if (userInput == 'y')
+    //         default:
+    //             break;
     //     }
     // }
 
