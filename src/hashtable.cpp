@@ -38,10 +38,6 @@ std::ostream &operator<<(std::ostream &stream, const HashItem &item)
     return stream;
 };
 
-std::fstream &operator<<(std::fstream &stream, const HashItem &item){
-
-};
-
 Hashtable::Hashtable(int nbrOfEntries)
 {
     this->size = getPrimeBiggerThan(nbrOfEntries * 1.3);

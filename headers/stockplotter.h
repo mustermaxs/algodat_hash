@@ -7,7 +7,7 @@
 class StockPlotter : public Plotter
 {
 public:
-    StockPlotter(int height, int width, int offsetX, int offsetY) : Plotter(int height, int width, int offsetX, int offsetY);
+    StockPlotter(int height, int width, int offsetX, int offsetY);
     void plotStockCourse(const HashItem &item);
 };
 
