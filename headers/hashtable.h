@@ -25,7 +25,7 @@ public:
     StockData();
     StockData(std::string date, double open, double high, double low, double close, double adj_close, double volume);
 
-    // friend std::fstream &operator<<(std::fstream &stream, const StockData &data);
+    friend std::fstream &operator<<(std::fstream &stream, const StockData &data);
     friend std::ostream &operator<<(std::ostream &stream, const StockData &data);
 };
 
@@ -40,7 +40,7 @@ public:
     HashItem();
     HashItem(std::string abbr, std::string name, std::string wkn) : abbr(abbr), name(name), wkn(wkn){};
 
-    // friend std::fstream &operator<<(std::fstream &stream, const HashItem &item);
+    friend std::fstream &operator<<(std::fstream &stream, const HashItem &item);
     friend std::ostream &operator<<(std::ostream &stream, const HashItem &item);
 };
 
@@ -83,7 +83,7 @@ public:
     void loadFromFile(std::string &path);
     void addCourseData(const std::string &abbr, StockData &data);
     StockData *createStockData(std::string &date, double high, double low, double close, double adj, double volume, double adj_close);
-    void save();
+    // TODO
     HashItem *getIndexFromKey(std::string &abbr);
     HashItem *find(const std::string &abbr);
     bool foundKey(const std::string &abbr, int index);

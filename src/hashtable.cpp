@@ -25,8 +25,8 @@ std::ostream &operator<<(std::ostream &stream, const StockData &data)
     stream << data.high << ",";
     stream << data.low << ",";
     stream << data.close << ",";
-    stream << data.adj_close << ",";
     stream << data.volume << ",";
+    stream << data.adj_close << ",";
     return stream;
 };
 
@@ -38,13 +38,9 @@ std::ostream &operator<<(std::ostream &stream, const HashItem &item)
     return stream;
 };
 
-// std::fstream &operator<<(std::fstream &stream, const HashItem &item)
-// {
-//     stream << item.abbr << ",";
-//     stream << item.name << ",";
-//     stream << item.wkn << ",";
-//     return stream;
-// };
+std::fstream &operator<<(std::fstream &stream, const HashItem &item){
+
+};
 
 Hashtable::Hashtable(int nbrOfEntries)
 {
@@ -76,7 +72,7 @@ void Hashtable::import(const std::string &abbr, const std::string &path)
 
         this->addCourseData(abbr, *data);
     }
-};
+}
 
 void Hashtable::useParser(Parser *parser)
 {
@@ -147,20 +143,17 @@ StockData *Hashtable(std::string &date, double high, double low, double close, d
 
 void Hashtable::save()
 {
-    std::ofstream file("saved_hashtable.txt");
+    std::ostream hashtableFile("saved_hashtable.txt", );
 
     for (int itemIndex = 0; itemIndex < this->size; itemIndex++)
     {
-        if (this->table[itemIndex] == NULL)
-            continue;
-        file << "#," << itemIndex << "," << *(this->table[itemIndex]) << std::endl;
 
-        for (const auto &data : this->table[itemIndex]->data)
+        hashtableFile << stock;
+        for (const auto &data : stock)
         {
-            file << *data << std::endl;
         }
     }
-};
+}
 
 void Hashtable::addCourseData(const std::string &abbr, StockData &data)
 {

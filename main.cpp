@@ -22,8 +22,6 @@ int main()
     table.add("apl", "Apple", "123");
     table.import("apl", "stocks.csv");
     HashItem *item = table.find("apl");
-    plotter.plotStockCourse(*item);
-    // table.save();
     // std::cout << item->data[0]->date;
 
     // plotter.printGrid();
